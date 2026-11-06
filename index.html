@@ -4,9 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RELOJ Clock</title>
+<title>RELOJ Clock Notion</title>
 
 <style>
+/* ====================================
+   MAGIA PARA NOTION (ESCALADO PERFECTO)
+   ==================================== */
+:root {
+    /* Esto obliga a que toda medida 'rem' en el código dependa del 
+       tamaño del bloque de Notion, manteniendo la proporción 4:3 intacta */
+    font-size: min(1vw, calc(100vh / 75));
+
+    /* Imagen por defecto */
+    --bg-image:url("./Olivia_YSPSFAGSIL.png");
+}
 
 *{
     margin:0;
@@ -14,83 +25,38 @@
     box-sizing:border-box;
 }
 
-html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:
-        "Segoe UI",
-        Inter,
-        Arial,
-        Helvetica,
-        sans-serif;
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    font-family: "Segoe UI", Inter, Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fondos */
+body.solid { background: #86A8E7; }
+body.gradient { background: linear-gradient(135deg, #5d7ec9 0%, #8fb2ee 100%); }
+body.image {
+    background-image: var(--bg-image);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* ====================================
-   CONFIGURACIÓN DEL FONDO
-   ==================================== */
-
-:root{
-    /* Color sólido */
-  /* --solid-color:#86A8E7; */
-
-    /* Degradado */
-   /* --gradient:
-        linear-gradient(
-            135deg,
-            #5d7ec9 0%,
-            #8fb2ee 100%
-        ); */
-
-    /* Imagen */
-    --bg-image:url("./Olivia_YSPSFAGSIL.png");
-}
-
-/* ====================================
-   BODY
-   ==================================== */
-
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-body.solid{
-    background:var(--solid-color);
-}
-
-body.gradient{
-    background:var(--gradient);
-}
-
-body.image{
-    background-image:var(--bg-image);
-    background-position:center;
-    background-size:cover;
-    background-repeat:no-repeat;
-}
-
-/* ====================================
-   CANVAS 4:3
+   CANVAS PRINCIPAL
    ==================================== */
 
 .canvas{
-    /* Mantiene las dimensiones controladas para que nunca sea más grande que la pantalla */
-    width:min(
-        95vw,
-        calc(95vh * 4 / 3)
-    );
-    aspect-ratio:4/3;
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-
-    /* MAGIA: Convertimos el canvas en un contenedor maestro */
-    container-type: inline-size;
+    /* En lugar de %, usamos nuestra medida relativa. 
+       90rem = 90% del espacio disponible seguro en Notion */
+    width: 90rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ====================================
@@ -98,21 +64,18 @@ body.image{
    ==================================== */
 
 .clock{
-    width:95%;
-    display:flex;
-    justify-content:center;
-    /* Espaciado 100% proporcional al contenedor */
-    gap: 2cqi; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem; /* Separación proporcional */
 }
 
 .card{
-    flex:1;
-    aspect-ratio:1.15/1;
-    position:relative;
-    overflow:hidden;
-    
-    /* Borde proporcional */
-    border-radius: 2.5cqi; 
+    flex: 1;
+    aspect-ratio: 1.15 / 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2.5rem; 
 
     /* Cristal translúcido */
     background: rgba(120,150,255,0.08);
@@ -120,15 +83,15 @@ body.image{
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgba(255,255,255,0.20);
     box-shadow:
-        0 1cqi 2.5cqi rgba(0,0,0,0.18),
+        0 1.5rem 3rem rgba(0,0,0,0.18),
         inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 /* Reflejo superior */
 .card::before{
-    content:"";
-    position:absolute;
-    inset:0;
+    content: "";
+    position: absolute;
+    inset: 0;
     background:
         linear-gradient(
             180deg,
@@ -136,70 +99,59 @@ body.image{
             rgba(255,255,255,0.05) 45%,
             transparent
         );
-    pointer-events:none;
+    pointer-events: none;
 }
 
 /* Línea central */
 .card::after{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    top:50%;
-    height:1px;
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1px;
     background: rgba(25,35,65,0.22);
     box-shadow: 0 1px 0 rgba(255,255,255,0.13);
 }
 
 /* ====================================
-   VALORES
+   VALORES Y TEXTOS
    ==================================== */
 
 .value{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#F8F4E9;
-    font-weight:700;
-    line-height:1;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F8F4E9;
+    font-weight: 700;
+    line-height: 1;
     
-    /* Tipografía y espaciado proporcional exacto */
-    letter-spacing: -0.5cqi;
-    text-shadow: 0 0.2cqi 0.8cqi rgba(0,0,0,0.12);
-    font-size: 16cqi;
+    /* Tamaños basados en nuestro cálculo maestro */
+    letter-spacing: -0.5rem;
+    text-shadow: 0 0.5rem 1rem rgba(0,0,0,0.12);
+    font-size: 16rem; 
 }
-
-/* ====================================
-   AM / PM
-   ==================================== */
 
 .ampm{
-    position:absolute;
-    top: 1.5cqi;
-    left: 1.5cqi;
-    z-index:10;
+    position: absolute;
+    top: 1.8rem;
+    left: 2rem;
+    z-index: 10;
     color: rgba(255,255,255,0.60);
-    font-weight:700;
-    letter-spacing: 0.1cqi;
-    font-size: 1.8cqi;
+    font-weight: 700;
+    letter-spacing: 0.1rem;
+    font-size: 2rem;
 }
-
-/* ====================================
-   FECHA
-   ==================================== */
 
 .date{
-    margin-top: 3.5cqi;
+    margin-top: 4rem;
     color: rgba(255,255,255,0.90);
-    font-weight:600;
-    text-align:center;
-    text-shadow: 0 0.2cqi 0.5cqi rgba(0,0,0,0.15);
-    font-size: 2.5cqi;
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.15);
+    font-size: 2.8rem;
 }
-
-/* Ya no necesitamos @media queries, el diseño ahora es matemáticamente perfecto sin importar la resolución */
 
 </style>
 </head>
@@ -220,7 +172,7 @@ body.image{
         </div>
     </div>
     <div class="date" id="date">
-        viernes, 6 de noviembre de 2026
+        cargando...
     </div>
 </div>
 
