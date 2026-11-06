@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RELOJ Clock Adapto</title>
+<title>RELOJ Clock</title>
 
 <style>
 
@@ -18,7 +18,7 @@ html,
 body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: "Segoe UI", Inter, Arial, Helvetica, sans-serif;
 }
 
@@ -33,14 +33,15 @@ body {
     /* Degradado */
     --gradient: linear-gradient(135deg, #5d7ec9 0%, #8fb2ee 100%);
 
-    /* Imagen */
-    --bg-image: url("./Olivia_YSPSFAGSIL.png");
+    /* Imagen (Asegúrate de que la ruta sea correcta) */
+    --bg-image: url("./Olivia_YSPSFAGSIL.png"); 
 }
 
 body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #1a1a2e; /* Respaldo en caso de que falle la imagen */
 }
 
 body.solid { background: var(--solid-color); }
@@ -53,47 +54,49 @@ body.image {
 }
 
 /* ====================================
-   CANVAS FLUIDO
+   CONTENEDOR PRINCIPAL FLUIDO
    ==================================== */
 
 .canvas {
     width: 100%;
-    height: 100%;
-    position: relative;
+    min-height: 100vh;
+    padding: 5vw; /* Espaciado dinámico */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 5vw;
 }
 
 /* ====================================
-   RELOJ
+   RELOJ - CSS GRID ADAPTABLE
    ==================================== */
 
 .clock {
     width: 100%;
     max-width: 1200px;
-    display: flex;
-    justify-content: center;
-    gap: clamp(10px, 2vw, 30px);
+    display: grid;
+    /* auto-fit crea columnas automáticamente según el ancho disponible */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
 }
 
 .card {
-    flex: 1;
-    /* Ratio dinámico que respeta alturas máximas para no desbordar en pantallas ultra-anchas */
-    aspect-ratio: 1.15 / 1;
-    max-height: 55vh; 
     position: relative;
+    aspect-ratio: 1.15 / 1;
     overflow: hidden;
-    border-radius: clamp(12px, 2vw, 30px);
+    border-radius: 22px;
+    
+    /* Convierte la tarjeta en un contenedor para escalar el texto */
+    container-type: inline-size; 
 
     /* Cristal translúcido */
     background: rgba(120, 150, 255, 0.08);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.20);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* Reflejo superior */
@@ -101,7 +104,12 @@ body.image {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.05) 45%, transparent);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.20),
+        rgba(255, 255, 255, 0.05) 45%,
+        transparent
+    );
     pointer-events: none;
 }
 
@@ -118,7 +126,7 @@ body.image {
 }
 
 /* ====================================
-   VALORES
+   VALORES Y TIPOGRAFÍA FLUIDA
    ==================================== */
 
 .value {
@@ -130,27 +138,23 @@ body.image {
     color: #F8F4E9;
     font-weight: 700;
     line-height: 1;
-    /* Se usa 'em' para que el espaciado escale junto con la fuente */
-    letter-spacing: -0.05em; 
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     
-    /* El tamaño de fuente busca el valor menor entre el ancho o alto de la pantalla */
-    font-size: min(15vw, 32vh);
+    /* El tamaño se basa en el ancho de su tarjeta (Container Query Width) */
+    font-size: 45cqw; 
+    letter-spacing: -1cqw;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
-
-/* ====================================
-   AM / PM
-   ==================================== */
 
 .ampm {
     position: absolute;
-    top: 8%;
-    left: 8%;
+    top: 6cqw;
+    left: 8cqw;
     z-index: 10;
     color: rgba(255, 255, 255, 0.60);
     font-weight: 700;
-    letter-spacing: 1px;
-    font-size: clamp(12px, min(2vw, 3vh), 30px);
+    
+    font-size: 10cqw;
+    letter-spacing: 0.5cqw;
 }
 
 /* ====================================
@@ -158,40 +162,39 @@ body.image {
    ==================================== */
 
 .date {
-    margin-top: min(4vh, 3vw);
+    margin-top: 3rem;
     color: rgba(255, 255, 255, 0.90);
     font-weight: 600;
     text-align: center;
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    font-size: clamp(14px, min(3vw, 4vh), 40px);
+    
+    /* Adaptable al ancho de la pantalla */
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
 
 /* ====================================
-   RESPONSIVE (Pantallas verticales/Móviles)
+   RESPONSIVE EXTRA (Ajuste de espacios)
    ==================================== */
 
 @media (max-width: 600px) {
     .clock {
-        width: 95vw;
-        gap: 2vw;
+        gap: 1rem;
+        /* En móviles muy pequeños forzamos 1 columna para que no se aprieten */
+        grid-template-columns: 1fr; 
+        max-width: 320px;
     }
-    .card {
-        /* Tarjetas un poco más altas en móvil para ajustar los números estrechos */
-        aspect-ratio: 0.9 / 1; 
-        border-radius: 16px;
-    }
-    .value {
-        font-size: min(22vw, 30vh);
+    .date {
+        margin-top: 2rem;
     }
 }
 
 </style>
 </head>
 
+<!-- Opciones: class="solid" | class="gradient" | class="image" -->
 <body class="image">
 
 <div class="canvas">
-
     <div class="clock">
         <div class="card">
             <div class="ampm" id="ampm">AM</div>
@@ -208,29 +211,24 @@ body.image {
     </div>
 
     <div class="date" id="date">
-        Cargando fecha...
+        viernes, 6 de noviembre de 2026
     </div>
-
 </div>
 
 <script>
-function updateClock(){
+function updateClock() {
     const now = new Date();
-
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
     const ampm = hours24 >= 12 ? "PM" : "AM";
     let hours12 = hours24 % 12;
+    if(hours12 === 0) hours12 = 12;
 
-    if(hours12 === 0){
-        hours12 = 12;
-    }
-
-    document.getElementById("hours").textContent = String(hours12).padStart(2,"0");
-    document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
-    document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+    document.getElementById("hours").textContent = String(hours12).padStart(2, "0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
     document.getElementById("ampm").textContent = ampm;
 
     const formattedDate = now.toLocaleDateString("es-ES", {
