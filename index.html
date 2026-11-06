@@ -4,326 +4,195 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RELOJ Clock</title>
+<title>RELOJ Clock Adapto</title>
 
 <style>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:
-        "Segoe UI",
-        Inter,
-        Arial,
-        Helvetica,
-        sans-serif;
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Segoe UI", Inter, Arial, Helvetica, sans-serif;
 }
 
 /* ====================================
    CONFIGURACIÓN DEL FONDO
    ==================================== */
 
-/*
-    OPCIONES:
-
-    class="solid"
-    class="gradient"
-    class="image"
-*/
-
-:root{
-
+:root {
     /* Color sólido */
-  /*  --solid-color:#86A8E7;
+    --solid-color: #86A8E7;
 
     /* Degradado */
-   /* --gradient:
-        linear-gradient(
-            135deg,
-            #5d7ec9 0%,
-            #8fb2ee 100%
-        );
+    --gradient: linear-gradient(135deg, #5d7ec9 0%, #8fb2ee 100%);
 
     /* Imagen */
-    --bg-image:url("./Olivia_YSPSFAGSIL.png");
+    --bg-image: url("./Olivia_YSPSFAGSIL.png");
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.solid { background: var(--solid-color); }
+body.gradient { background: var(--gradient); }
+body.image {
+    background-image: var(--bg-image);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 /* ====================================
-   BODY
+   CANVAS FLUIDO
    ==================================== */
 
-body{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* Color sólido */
-
-body.solid{
-    background:var(--solid-color);
-}
-
-/* Degradado */
-
-body.gradient{
-    background:var(--gradient);
-}
-
-/* Imagen */
-
-body.image{
-    background-image:var(--bg-image);
-    background-position:center;
-    background-size:cover;
-    background-repeat:no-repeat;
-}
-
-/* ====================================
-   CANVAS 4:3
-   ==================================== */
-
-.canvas{
-
-    width:min(
-        95vw,
-        calc(95vh * 4 / 3)
-    );
-
-    aspect-ratio:4/3;
-
-    position:relative;
-
-    display:flex;
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
+.canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5vw;
 }
 
 /* ====================================
    RELOJ
    ==================================== */
 
-.clock{
-
-    width:95%;
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:18px;
+.clock {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 30px);
 }
 
-.card{
-
-    flex:1;
-
-    aspect-ratio:1.15/1;
-
-    position:relative;
-
-    overflow:hidden;
-
-    border-radius:22px;
+.card {
+    flex: 1;
+    /* Ratio dinámico que respeta alturas máximas para no desbordar en pantallas ultra-anchas */
+    aspect-ratio: 1.15 / 1;
+    max-height: 55vh; 
+    position: relative;
+    overflow: hidden;
+    border-radius: clamp(12px, 2vw, 30px);
 
     /* Cristal translúcido */
-
-    background:
-        rgba(120,150,255,0.08);
-
-    backdrop-filter:
-        blur(24px)
-        saturate(180%);
-
-    -webkit-backdrop-filter:
-        blur(24px)
-        saturate(180%);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.20);
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.18),
-        inset 0 1px 0 rgba(255,255,255,0.25);
+    background: rgba(120, 150, 255, 0.08);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* Reflejo superior */
-
-.card::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,0.20),
-            rgba(255,255,255,0.05) 45%,
-            transparent
-        );
-
-    pointer-events:none;
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.05) 45%, transparent);
+    pointer-events: none;
 }
 
 /* Línea central */
-
-.card::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    right:0;
-
-    top:50%;
-
-    height:1px;
-
-    background:
-        rgba(25,35,65,0.22);
-
-    box-shadow:
-        0 1px 0 rgba(255,255,255,0.13);
+.card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: rgba(25, 35, 65, 0.22);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.13);
 }
 
 /* ====================================
    VALORES
    ==================================== */
 
-.value{
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#F8F4E9;
-
-    font-weight:700;
-
-    line-height:1;
-
-    letter-spacing:-5px;
-
-    text-shadow:
-        0 2px 8px rgba(0,0,0,0.12);
-
-    font-size:
-        clamp(
-            5rem,
-            11vw,
-            9rem
-        );
+.value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F8F4E9;
+    font-weight: 700;
+    line-height: 1;
+    /* Se usa 'em' para que el espaciado escale junto con la fuente */
+    letter-spacing: -0.05em; 
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    
+    /* El tamaño de fuente busca el valor menor entre el ancho o alto de la pantalla */
+    font-size: min(15vw, 32vh);
 }
 
 /* ====================================
    AM / PM
    ==================================== */
 
-.ampm{
-
-    position:absolute;
-
-    top:14px;
-    left:15px;
-
-    z-index:10;
-
-    color:
-        rgba(255,255,255,0.60);
-
-    font-weight:700;
-
-    letter-spacing:1px;
-
-    font-size:
-        clamp(
-            0.9rem,
-            1.6vw,
-            1.7rem
-        );
+.ampm {
+    position: absolute;
+    top: 8%;
+    left: 8%;
+    z-index: 10;
+    color: rgba(255, 255, 255, 0.60);
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: clamp(12px, min(2vw, 3vh), 30px);
 }
 
 /* ====================================
    FECHA
    ==================================== */
 
-.date{
-
-    margin-top:32px;
-
-    color:
-        rgba(255,255,255,0.90);
-
-    font-weight:600;
-
-    text-align:center;
-
-    text-shadow:
-        0 2px 5px rgba(0,0,0,0.15);
-
-    font-size:
-        clamp(
-            1rem,
-            2vw,
-            2rem
-        );
+.date {
+    margin-top: min(4vh, 3vw);
+    color: rgba(255, 255, 255, 0.90);
+    font-weight: 600;
+    text-align: center;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    font-size: clamp(14px, min(3vw, 4vh), 40px);
 }
 
 /* ====================================
-   RESPONSIVE
+   RESPONSIVE (Pantallas verticales/Móviles)
    ==================================== */
 
-@media (max-width:900px){
-
-    .clock{
-        gap:10px;
+@media (max-width: 600px) {
+    .clock {
+        width: 95vw;
+        gap: 2vw;
     }
-
-    .card{
-        border-radius:16px;
+    .card {
+        /* Tarjetas un poco más altas en móvil para ajustar los números estrechos */
+        aspect-ratio: 0.9 / 1; 
+        border-radius: 16px;
     }
-
-    .date{
-        margin-top:20px;
+    .value {
+        font-size: min(22vw, 30vh);
     }
 }
 
 </style>
 </head>
 
-<!--
-    CAMBIAR ENTRE:
-
-    class="solid"
-    class="gradient"
-    class="image"
--->
-
 <body class="image">
 
 <div class="canvas">
 
     <div class="clock">
-
         <div class="card">
             <div class="ampm" id="ampm">AM</div>
             <div class="value" id="hours">11</div>
@@ -336,71 +205,46 @@ body.image{
         <div class="card">
             <div class="value" id="seconds">20</div>
         </div>
-
     </div>
 
     <div class="date" id="date">
-        viernes, 6 de noviembre de 2026
+        Cargando fecha...
     </div>
 
 </div>
 
 <script>
-
 function updateClock(){
-
     const now = new Date();
 
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
-    const ampm =
-        hours24 >= 12
-        ? "PM"
-        : "AM";
-
-    let hours12 =
-        hours24 % 12;
+    const ampm = hours24 >= 12 ? "PM" : "AM";
+    let hours12 = hours24 % 12;
 
     if(hours12 === 0){
         hours12 = 12;
     }
 
-    document.getElementById("hours").textContent =
-        String(hours12).padStart(2,"0");
+    document.getElementById("hours").textContent = String(hours12).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
+    document.getElementById("ampm").textContent = ampm;
 
-    document.getElementById("minutes").textContent =
-        String(minutes).padStart(2,"0");
+    const formattedDate = now.toLocaleDateString("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
 
-    document.getElementById("seconds").textContent =
-        String(seconds).padStart(2,"0");
-
-    document.getElementById("ampm").textContent =
-        ampm;
-
-    const formattedDate =
-        now.toLocaleDateString(
-            "es-ES",
-            {
-                weekday:"long",
-                day:"numeric",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
-    document.getElementById("date").textContent =
-        formattedDate;
+    document.getElementById("date").textContent = formattedDate;
 }
 
 updateClock();
-
-setInterval(
-    updateClock,
-    1000
-);
-
+setInterval(updateClock, 1000);
 </script>
 
 </body>
