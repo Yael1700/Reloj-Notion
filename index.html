@@ -8,190 +8,202 @@
 
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    font-family: "Segoe UI", Inter, Arial, Helvetica, sans-serif;
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:
+        "Segoe UI",
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
 /* ====================================
    CONFIGURACIÓN DEL FONDO
    ==================================== */
 
-:root {
+:root{
     /* Color sólido */
-    --solid-color: #86A8E7;
+  /* --solid-color:#86A8E7; */
 
     /* Degradado */
-    --gradient: linear-gradient(135deg, #5d7ec9 0%, #8fb2ee 100%);
+   /* --gradient:
+        linear-gradient(
+            135deg,
+            #5d7ec9 0%,
+            #8fb2ee 100%
+        ); */
 
-    /* Imagen (Asegúrate de que la ruta sea correcta) */
-    --bg-image: url("./Olivia_YSPSFAGSIL.png"); 
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1a1a2e; /* Respaldo en caso de que falle la imagen */
-}
-
-body.solid { background: var(--solid-color); }
-body.gradient { background: var(--gradient); }
-body.image {
-    background-image: var(--bg-image);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    /* Imagen */
+    --bg-image:url("./Olivia_YSPSFAGSIL.png");
 }
 
 /* ====================================
-   CONTENEDOR PRINCIPAL FLUIDO
+   BODY
    ==================================== */
 
-.canvas {
-    width: 100%;
-    min-height: 100vh;
-    padding: 5vw; /* Espaciado dinámico */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+body.solid{
+    background:var(--solid-color);
+}
+
+body.gradient{
+    background:var(--gradient);
+}
+
+body.image{
+    background-image:var(--bg-image);
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
 }
 
 /* ====================================
-   RELOJ - CSS GRID ADAPTABLE
+   CANVAS 4:3
    ==================================== */
 
-.clock {
-    width: 100%;
-    max-width: 1200px;
-    display: grid;
-    /* auto-fit crea columnas automáticamente según el ancho disponible */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+.canvas{
+    /* Mantiene las dimensiones controladas para que nunca sea más grande que la pantalla */
+    width:min(
+        95vw,
+        calc(95vh * 4 / 3)
+    );
+    aspect-ratio:4/3;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    /* MAGIA: Convertimos el canvas en un contenedor maestro */
+    container-type: inline-size;
 }
 
-.card {
-    position: relative;
-    aspect-ratio: 1.15 / 1;
-    overflow: hidden;
-    border-radius: 22px;
+/* ====================================
+   RELOJ
+   ==================================== */
+
+.clock{
+    width:95%;
+    display:flex;
+    justify-content:center;
+    /* Espaciado 100% proporcional al contenedor */
+    gap: 2cqi; 
+}
+
+.card{
+    flex:1;
+    aspect-ratio:1.15/1;
+    position:relative;
+    overflow:hidden;
     
-    /* Convierte la tarjeta en un contenedor para escalar el texto */
-    container-type: inline-size; 
+    /* Borde proporcional */
+    border-radius: 2.5cqi; 
 
     /* Cristal translúcido */
-    background: rgba(120, 150, 255, 0.08);
+    background: rgba(120,150,255,0.08);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.20);
-    box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255,255,255,0.20);
+    box-shadow:
+        0 1cqi 2.5cqi rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 /* Reflejo superior */
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.20),
-        rgba(255, 255, 255, 0.05) 45%,
-        transparent
-    );
-    pointer-events: none;
+.card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,0.20),
+            rgba(255,255,255,0.05) 45%,
+            transparent
+        );
+    pointer-events:none;
 }
 
 /* Línea central */
-.card::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 1px;
-    background: rgba(25, 35, 65, 0.22);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.13);
+.card::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:1px;
+    background: rgba(25,35,65,0.22);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.13);
 }
 
 /* ====================================
-   VALORES Y TIPOGRAFÍA FLUIDA
+   VALORES
    ==================================== */
 
-.value {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #F8F4E9;
-    font-weight: 700;
-    line-height: 1;
+.value{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#F8F4E9;
+    font-weight:700;
+    line-height:1;
     
-    /* El tamaño se basa en el ancho de su tarjeta (Container Query Width) */
-    font-size: 45cqw; 
-    letter-spacing: -1cqw;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    /* Tipografía y espaciado proporcional exacto */
+    letter-spacing: -0.5cqi;
+    text-shadow: 0 0.2cqi 0.8cqi rgba(0,0,0,0.12);
+    font-size: 16cqi;
 }
 
-.ampm {
-    position: absolute;
-    top: 6cqw;
-    left: 8cqw;
-    z-index: 10;
-    color: rgba(255, 255, 255, 0.60);
-    font-weight: 700;
-    
-    font-size: 10cqw;
-    letter-spacing: 0.5cqw;
+/* ====================================
+   AM / PM
+   ==================================== */
+
+.ampm{
+    position:absolute;
+    top: 1.5cqi;
+    left: 1.5cqi;
+    z-index:10;
+    color: rgba(255,255,255,0.60);
+    font-weight:700;
+    letter-spacing: 0.1cqi;
+    font-size: 1.8cqi;
 }
 
 /* ====================================
    FECHA
    ==================================== */
 
-.date {
-    margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.90);
-    font-weight: 600;
-    text-align: center;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    
-    /* Adaptable al ancho de la pantalla */
-    font-size: clamp(1.2rem, 3vw, 2.5rem);
+.date{
+    margin-top: 3.5cqi;
+    color: rgba(255,255,255,0.90);
+    font-weight:600;
+    text-align:center;
+    text-shadow: 0 0.2cqi 0.5cqi rgba(0,0,0,0.15);
+    font-size: 2.5cqi;
 }
 
-/* ====================================
-   RESPONSIVE EXTRA (Ajuste de espacios)
-   ==================================== */
-
-@media (max-width: 600px) {
-    .clock {
-        gap: 1rem;
-        /* En móviles muy pequeños forzamos 1 columna para que no se aprieten */
-        grid-template-columns: 1fr; 
-        max-width: 320px;
-    }
-    .date {
-        margin-top: 2rem;
-    }
-}
+/* Ya no necesitamos @media queries, el diseño ahora es matemáticamente perfecto sin importar la resolución */
 
 </style>
 </head>
 
-<!-- Opciones: class="solid" | class="gradient" | class="image" -->
 <body class="image">
 
 <div class="canvas">
@@ -200,43 +212,47 @@ body.image {
             <div class="ampm" id="ampm">AM</div>
             <div class="value" id="hours">11</div>
         </div>
-
         <div class="card">
             <div class="value" id="minutes">46</div>
         </div>
-
         <div class="card">
             <div class="value" id="seconds">20</div>
         </div>
     </div>
-
     <div class="date" id="date">
         viernes, 6 de noviembre de 2026
     </div>
 </div>
 
 <script>
-function updateClock() {
+function updateClock(){
     const now = new Date();
+
     const hours24 = now.getHours();
     const minutes = now.getMinutes();
     const seconds = now.getSeconds();
 
     const ampm = hours24 >= 12 ? "PM" : "AM";
     let hours12 = hours24 % 12;
-    if(hours12 === 0) hours12 = 12;
 
-    document.getElementById("hours").textContent = String(hours12).padStart(2, "0");
-    document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-    document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    if(hours12 === 0){
+        hours12 = 12;
+    }
+
+    document.getElementById("hours").textContent = String(hours12).padStart(2,"0");
+    document.getElementById("minutes").textContent = String(minutes).padStart(2,"0");
+    document.getElementById("seconds").textContent = String(seconds).padStart(2,"0");
     document.getElementById("ampm").textContent = ampm;
 
-    const formattedDate = now.toLocaleDateString("es-ES", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    });
+    const formattedDate = now.toLocaleDateString(
+        "es-ES",
+        {
+            weekday:"long",
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        }
+    );
 
     document.getElementById("date").textContent = formattedDate;
 }
